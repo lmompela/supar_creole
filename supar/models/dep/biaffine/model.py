@@ -226,9 +226,18 @@ class BiaffineDependencyModel(Model):
 
         lens = mask.sum(1)
         arc_preds = s_arc.argmax(-1)
+	# Debug output: print sequence lengths and initial predictions
+        #print("DEBUG: Sequence lengths:", lens.tolist())
+        #print("DEBUG: Initial arc_preds:", arc_preds.tolist())
+
         bad = [not CoNLL.istree(seq[1:i+1], proj) for i, seq in zip(lens.tolist(), arc_preds.tolist())]
+        #print("DEBUG: Bad flags (non-tree):", bad)
         if tree and any(bad):
+            #print("DEBUG: Tree constraint active. Correcting bad predictions...")
             arc_preds[bad] = (DependencyCRF if proj else MatrixTree)(s_arc[bad], mask[bad].sum(-1)).argmax
+            #print("DEBUG: Corrected arc_preds:", arc_preds.tolist())
         rel_preds = s_rel.argmax(-1).gather(-1, arc_preds.unsqueeze(-1)).squeeze(-1)
+        #print("DEBUG: Final arc_preds:", arc_preds.tolist())
+        #print("DEBUG: Final rel_preds:", rel_preds.tolist())
 
         return arc_preds, rel_preds

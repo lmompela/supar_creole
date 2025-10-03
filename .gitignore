@@ -37,3 +37,12 @@ __pycache__
 
 # vscode
 .vscode
+
+# rest
+*.csv
+*.png
+*.conllu
+configs/legacy/
+logs/
+models/
+supar_venv/
