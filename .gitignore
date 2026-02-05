@@ -3,6 +3,7 @@ data
 
 # bash scripts
 *.sh
+*.vec
 
 # docs
 docs/_build
@@ -46,3 +47,4 @@ configs/legacy/
 logs/
 models/
 supar_venv/
+embeddings/*
