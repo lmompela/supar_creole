@@ -170,6 +170,13 @@ class Embedding(object):
             cfg = dict(**PRETRAINED[path])
             embed = cfg.pop('_target_')
             return embed(**cfg, **kwargs)
+        # Auto-detect fastText .vec header: if the first line is "vocab_size dim"
+        # (two integers), set skip_first=True so it is not treated as a token.
+        if os.path.isfile(path):
+            with open(path) as f:
+                first_line = f.readline().strip().split()
+            if len(first_line) == 2 and all(tok.isdigit() for tok in first_line):
+                kwargs.setdefault('skip_first', True)
         return cls(path, unk, **kwargs)
 
 

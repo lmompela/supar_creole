@@ -202,6 +202,11 @@ class BiaffineDependencyParser(Parser):
             'unk_index': WORD.unk_index,
             'bos_index': WORD.bos_index
         })
+        # Sync n_embed and n_pretrained to the actual embedding dimension so the model
+        # is built with the correct LSTM input size and add-mode (word_embed += pretrained).
+        if args.encoder != 'bert' and hasattr(WORD, 'embed') and WORD.embed is not None:
+            args.n_embed = WORD.embed.shape[1]
+            args.n_pretrained = WORD.embed.shape[1]
         logger.info(f"{transform}")
 
         logger.info("Building the model")

@@ -46,5 +46,22 @@ __pycache__
 configs/legacy/
 logs/
 models/
+predictions/
 supar_venv/
+scripts/archived/
+models
+
+# Embeddings (too large for GitHub)
+embeddings/*.vec
+embeddings/*.bin
 embeddings/*
+
+# accidental shell-output files
+--seeds
+python3
+
+# Local research notes (do not publish)
+experiment_log.md
+PAPER1_MATERIALS_ORGANIZED.md
+PAPER1_QUICK_REFERENCE.md
+PHASE5_FINDINGS_SUMMARY.md
